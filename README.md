@@ -66,7 +66,7 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
 
 ### Example Output
 
-The script will extract structured data from your PDF and output:
+The script will extract structured data from your PDF and output multiple products with all size variations:
 
 ```json
 {
@@ -76,14 +76,71 @@ The script will extract structured data from your PDF and output:
       "name": "Petal Palooza",
       "size": "S",
       "price": 39.99,
-      "flower-data": "1 stem Hydrangea - Blue, 2 stems Carnation - Orange...",
+      "flower-data": "1 stem Hydrangea - Blue, 2 stems Carnation - Orange, 1 stem Spray Roses - Hot Pink, 1 stem Daisy - Purple, 1 stem Alstroemeria - Orange",
       "foliage-data": "2 stems Tree Fern - Painted, 0 stems Eucalyptus - Gunni",
       "dimensions": "Arrangement Height 9\", Length 7\"",
+      "construction-material": "6\" Gathering Vase - Clear"
+    },
+    {
+      "id": "197766M",
+      "name": "Petal Palooza",
+      "size": "M",
+      "price": 49.99,
+      "flower-data": "2 stems Hydrangea - Blue, 4 stems Carnation - Orange, 2 stems Spray Roses - Hot Pink, 2 stems Daisy - Purple, 2 stems Alstroemeria - Orange",
+      "foliage-data": "3 stems Tree Fern - Painted, 1 stem Eucalyptus - Gunni",
+      "dimensions": "Arrangement Height 11\", Length 10\"",
+      "construction-material": "6\" Gathering Vase - Clear"
+    },
+    {
+      "id": "197766L",
+      "name": "Petal Palooza",
+      "size": "L",
+      "price": 59.99,
+      "flower-data": "3 stems Hydrangea - Blue, 6 stems Carnation - Orange, 3 stems Spray Roses - Hot Pink, 3 stems Daisy - Purple, 3 stems Alstroemeria - Orange",
+      "foliage-data": "3 stems Tree Fern - Painted, 2 stems Eucalyptus - Gunni",
+      "dimensions": "Arrangement Height 12\", Length 11\"",
+      "construction-material": "6\" Gathering Vase - Clear"
+    },
+    {
+      "id": "197756S",
+      "name": "Field Study",
+      "size": "S",
+      "price": 39.99,
+      "flower-data": "2 stems Alstroemeria - White, 2 stems Roses - Peach, 1 stem Button Pom - Purple, 1 stem Wax - Blush, 1 stem Mini Carnation - Peach",
+      "foliage-data": "1 stem Huckleberry",
+      "dimensions": "Arrangement Height 13\", Length 10\"",
+      "construction-material": "6\" Gathering Vase - Clear"
+    },
+    {
+      "id": "197756M",
+      "name": "Field Study",
+      "size": "M",
+      "price": 49.99,
+      "flower-data": "4 stems Alstroemeria - White, 4 stems Roses - Peach, 2 stems Button Pom - Purple, 2 stems Wax - Blush, 2 stems Mini Carnation - Peach",
+      "foliage-data": "2 stems Huckleberry",
+      "dimensions": "Arrangement Height 15\", Length 11\"",
+      "construction-material": "6\" Gathering Vase - Clear"
+    },
+    {
+      "id": "197756L",
+      "name": "Field Study",
+      "size": "L",
+      "price": 59.99,
+      "flower-data": "6 stems Alstroemeria - White, 6 stems Roses - Peach, 3 stems Button Pom - Purple, 3 stems Wax - Blush, 3 stems Mini Carnation - Peach",
+      "foliage-data": "3 stems Huckleberry",
+      "dimensions": "Arrangement Height 17\", Length 12\"",
       "construction-material": "6\" Gathering Vase - Clear"
     }
   ]
 }
 ```
+
+**Key Features Demonstrated:**
+- **Multiple Products**: 2 different floral arrangements (Petal Palooza & Field Study)
+- **Size Variations**: Each product available in S, M, L sizes (6 total products)
+- **Detailed Specifications**: Complete flower and foliage breakdowns
+- **Pricing Structure**: Different prices for each size ($39.99, $49.99, $59.99)
+- **Dimensions**: Specific measurements for each arrangement size
 
 ## Configuration
 
