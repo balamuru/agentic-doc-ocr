@@ -1,5 +1,7 @@
 # Agentic Document OCR
 
+[![GitHub](https://img.shields.io/badge/GitHub-View%20on%20GitHub-blue?logo=github)](https://github.com/balamuru/agentic-doc-ocr)
+
 A Python-based document OCR system that uses Landing AI's Vision Agent API to extract structured data from PDF documents. This project is specifically designed to extract product information from floral arrangement catalogs, but can be adapted for other document types.
 
 ## Features
@@ -20,7 +22,7 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/balamuru/agentic-doc-ocr.git
    cd agentic-doc-ocr
    ```
 
@@ -153,6 +155,8 @@ The script includes comprehensive error handling for:
 
 ## Contributing
 
+We welcome contributions! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
@@ -167,7 +171,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 For issues and questions:
 
-1. Check the [Issues](https://github.com/your-repo/agentic-doc-ocr/issues) page
+1. Check the [Issues](https://github.com/balamuru/agentic-doc-ocr/issues) page
 2. Review the Landing AI [API Documentation](https://docs.landing.ai/)
 3. Ensure your environment variables are correctly configured
 
