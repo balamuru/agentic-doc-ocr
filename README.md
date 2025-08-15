@@ -11,11 +11,12 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
 - 🎯 **Multi-size Product Support**: Automatically extracts all product sizes (S, M, L) from catalog documents
 - 🔧 **Environment-based Configuration**: Secure configuration management using `.env` files
 - 📋 **Comprehensive Product Data**: Extracts ID, name, size, price, flower data, foliage data, dimensions, and construction materials
+- 🛡️ **Schema-based Validation**: Uses JSON schema for reliable data extraction
 
 ## Prerequisites
 
 - Python 3.13.3 or higher
-- Landing AI API key
+- Landing AI Vision Agent API key
 - PDF documents to process
 
 ## Installation
@@ -151,7 +152,6 @@ The script will extract structured data from your PDF and output multiple produc
 | `VISION_AGENT_API_KEY` | Your Landing AI Vision Agent API key | Yes |
 | `BASE_PDF_PATH` | Directory containing PDF files | Yes |
 | `PDF_NAME` | Name of the PDF file to process | Yes |
-| `DEBUG` | Enable debug mode (True/False) | No |
 
 ### Schema Configuration
 
@@ -173,6 +173,7 @@ agentic-doc-ocr/
 ├── ocr.py              # Main OCR processing script
 ├── requirements.txt    # Python dependencies
 ├── .env               # Environment configuration (not in git)
+├── .env.example       # Environment configuration template
 ├── .gitignore         # Git ignore rules
 ├── LICENSE            # MIT License
 ├── README.md          # This file
@@ -181,9 +182,10 @@ agentic-doc-ocr/
 
 ## Dependencies
 
-- `requests` - HTTP client for API calls
-- `python-dotenv` - Environment variable management
-- `json` - JSON data handling
+- `agentic-doc` - Landing AI's document processing library
+- `pydantic>=2.0.0` - Data validation and settings management
+- `python-dotenv>=1.0.0` - Environment variable management
+- `requests` - HTTP client for API calls (included with agentic-doc)
 
 ## API Integration
 
@@ -193,6 +195,7 @@ This project integrates with Landing AI's Vision Agent API for document analysis
 - **Document Understanding**: Intelligent parsing of complex layouts
 - **Structured Output**: JSON-formatted results with confidence scores
 - **Multi-page Support**: Handles multi-page documents automatically
+- **Schema-based Extraction**: Customizable data extraction based on JSON schema
 
 ## Error Handling
 
