@@ -12,6 +12,10 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
 - 🔧 **Environment-based Configuration**: Secure configuration management using `.env` files
 - 📋 **Comprehensive Product Data**: Extracts ID, name, size, price, flower data, foliage data, dimensions, and construction materials
 - 🛡️ **Schema-based Validation**: Uses JSON schema for reliable data extraction
+- 📄 **Page-by-Page Processing**: Splits multi-page PDFs and processes each page individually
+- ⚡ **Parallel Processing**: Processes multiple pages simultaneously for improved performance
+- 📁 **Organized Output**: Saves results in timestamped directories with page-specific folders
+- 🔄 **Backward Compatibility**: Maintains support for single-page processing mode
 
 ## Prerequisites
 
@@ -52,11 +56,14 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
    # File Path Configuration
    BASE_PDF_PATH=/path/to/your/pdf/directory
    PDF_NAME=your_document.pdf
+   
+   # Processing Configuration (optional)
+   MAX_WORKERS=4  # Number of parallel workers (default: 4)
    ```
 
 ## Usage
 
-### Basic Usage
+### Basic Usage (Multi-Page Processing)
 
 1. **Place your PDF file** in the directory specified by `BASE_PDF_PATH`
 2. **Update the PDF name** in your `.env` file
@@ -64,6 +71,55 @@ A Python-based document OCR system that uses Landing AI's Vision Agent API to ex
    ```bash
    python ocr.py
    ```
+
+The script will automatically:
+- Split the PDF into individual pages
+- Process each page in parallel using the Vision Agent API
+- Save results in organized directories
+- Generate comprehensive summaries
+
+### Output Structure
+
+Results are saved in the following structure:
+
+```
+output/
+└── 20241201-143022/          # Timestamp when processing started
+    ├── 001/                  # Page 1 results
+    │   ├── result.json       # Raw API response
+    │   └── summary.txt       # Human-readable summary
+    ├── 002/                  # Page 2 results
+    │   ├── result.json
+    │   └── summary.txt
+    ├── 003/                  # Page 3 results
+    │   ├── result.json
+    │   └── summary.txt
+    ├── processing_summary.txt # Overall processing summary
+    └── combined_results.json # All results combined
+```
+
+### Advanced Usage
+
+#### Custom Parallel Processing
+
+```python
+from ocr import process_pdf_by_pages
+
+# Process with 2 workers (useful for slower connections)
+result = process_pdf_by_pages("sampledata/sample-multi.pdf", max_workers=2)
+
+# Process with 8 workers (for high-performance systems)
+result = process_pdf_by_pages("sampledata/sample-multi.pdf", max_workers=8)
+```
+
+#### Single Page Processing (Legacy Mode)
+
+```python
+from ocr import process_document
+
+# Process a single page or single-page PDF
+result = process_document("sampledata/sample-good.pdf")
+```
 
 ### Example Output
 
@@ -101,36 +157,6 @@ The script will extract structured data from your PDF and output multiple produc
       "foliage-data": "3 stems Tree Fern - Painted, 2 stems Eucalyptus - Gunni",
       "dimensions": "Arrangement Height 12\", Length 11\"",
       "construction-material": "6\" Gathering Vase - Clear"
-    },
-    {
-      "id": "197756S",
-      "name": "Field Study",
-      "size": "S",
-      "price": 39.99,
-      "flower-data": "2 stems Alstroemeria - White, 2 stems Roses - Peach, 1 stem Button Pom - Purple, 1 stem Wax - Blush, 1 stem Mini Carnation - Peach",
-      "foliage-data": "1 stem Huckleberry",
-      "dimensions": "Arrangement Height 13\", Length 10\"",
-      "construction-material": "6\" Gathering Vase - Clear"
-    },
-    {
-      "id": "197756M",
-      "name": "Field Study",
-      "size": "M",
-      "price": 49.99,
-      "flower-data": "4 stems Alstroemeria - White, 4 stems Roses - Peach, 2 stems Button Pom - Purple, 2 stems Wax - Blush, 2 stems Mini Carnation - Peach",
-      "foliage-data": "2 stems Huckleberry",
-      "dimensions": "Arrangement Height 15\", Length 11\"",
-      "construction-material": "6\" Gathering Vase - Clear"
-    },
-    {
-      "id": "197756L",
-      "name": "Field Study",
-      "size": "L",
-      "price": 59.99,
-      "flower-data": "6 stems Alstroemeria - White, 6 stems Roses - Peach, 3 stems Button Pom - Purple, 3 stems Wax - Blush, 3 stems Mini Carnation - Peach",
-      "foliage-data": "3 stems Huckleberry",
-      "dimensions": "Arrangement Height 17\", Length 12\"",
-      "construction-material": "6\" Gathering Vase - Clear"
     }
   ]
 }
@@ -147,11 +173,12 @@ The script will extract structured data from your PDF and output multiple produc
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `VISION_AGENT_API_KEY` | Your Landing AI Vision Agent API key | Yes |
-| `BASE_PDF_PATH` | Directory containing PDF files | Yes |
-| `PDF_NAME` | Name of the PDF file to process | Yes |
+| Variable | Description | Required | Default |
+|----------|-------------|----------|---------|
+| `VISION_AGENT_API_KEY` | Your Landing AI Vision Agent API key | Yes | - |
+| `BASE_PDF_PATH` | Directory containing PDF files | Yes | - |
+| `PDF_NAME` | Name of the PDF file to process | Yes | - |
+| `MAX_WORKERS` | Number of parallel workers for processing | No | 4 |
 
 ### Schema Configuration
 
@@ -166,18 +193,47 @@ The extraction schema is defined in `ocr.py` and can be customized for different
 - Dimensions
 - Construction materials
 
+## Testing and Development
+
+### Running Tests
+```bash
+python test_ocr.py
+```
+
+The test suite covers:
+- PDF splitting functionality
+- Output directory creation
+- Page result saving
+- Error handling
+- Parallel processing structure
+
+### Development Tools
+- **`example_usage.py`**: Usage examples and demonstrations
+- **`IMPROVEMENTS.md`**: Detailed documentation of recent improvements
+- **`sampledata/`**: Sample PDF files for testing different scenarios
+  - `sampledata/sample-good.pdf`: Standard single-page document
+  - `sampledata/sample-multi.pdf`: Multi-page document for testing parallel processing
+  - `sampledata/sample-bad.pdf`: Document for testing error handling
+
 ## Project Structure
 
 ```
 agentic-doc-ocr/
 ├── ocr.py              # Main OCR processing script
+├── example_usage.py    # Example usage demonstrations
+├── test_ocr.py         # Test suite for functionality
+├── IMPROVEMENTS.md     # Detailed improvement summary
 ├── requirements.txt    # Python dependencies
+├── pyproject.toml      # Project configuration
+├── sampledata/         # Sample PDF files for testing
+│   ├── sample-good.pdf # Single-page example PDF
+│   ├── sample-multi.pdf # Multi-page example PDF
+│   └── sample-bad.pdf  # Test PDF for error handling
 ├── .env               # Environment configuration (not in git)
 ├── .env.example       # Environment configuration template
 ├── .gitignore         # Git ignore rules
 ├── LICENSE            # MIT License
-├── README.md          # This file
-└── sample.pdf         # Example PDF file (not in git)
+└── README.md          # This file
 ```
 
 ## Dependencies
@@ -185,7 +241,29 @@ agentic-doc-ocr/
 - `agentic-doc` - Landing AI's document processing library
 - `pydantic>=2.0.0` - Data validation and settings management
 - `python-dotenv>=1.0.0` - Environment variable management
-- `requests` - HTTP client for API calls (included with agentic-doc)
+- `PyPDF2>=3.0.0` - PDF manipulation and page splitting
+- `requests>=2.28.0` - HTTP client for API calls
+
+## Performance Considerations
+
+### Parallel Processing
+
+- **Default**: 4 parallel workers
+- **Recommended**: 2-8 workers depending on your system and API rate limits
+- **High-performance systems**: Can use 8+ workers
+- **Slower connections**: Use 2-3 workers to avoid overwhelming the API
+
+### Memory Usage
+
+- Each page is processed independently
+- Temporary files are automatically cleaned up
+- Memory usage scales with the number of parallel workers
+
+### API Rate Limits
+
+- The Vision Agent API has rate limits
+- Parallel processing may hit these limits with too many workers
+- Monitor API responses and adjust `MAX_WORKERS` accordingly
 
 ## API Integration
 
@@ -206,12 +284,22 @@ The script includes comprehensive error handling for:
 - File not found errors
 - API request failures
 - JSON parsing errors
+- PDF processing errors
+- Parallel processing failures
+
+### Error Recovery
+
+- Failed pages are logged with detailed error messages
+- Successful pages continue processing even if some pages fail
+- Temporary files are cleaned up even on errors
+- Processing summary includes success/failure counts
 
 ## Security
 
 - API keys are stored in `.env` files (not committed to version control)
 - Environment variables are validated before use
 - Sensitive configuration is excluded from git history
+- Temporary files are securely created and cleaned up
 
 ## Contributing
 
@@ -234,15 +322,20 @@ For issues and questions:
 1. Check the [Issues](https://github.com/balamuru/agentic-doc-ocr/issues) page
 2. Review the Landing AI [API Documentation](https://docs.landing.ai/)
 3. Ensure your environment variables are correctly configured
+4. Check the processing logs for detailed error information
 
 ## Roadmap
 
+- [x] Multi-page PDF processing
+- [x] Parallel processing capabilities
+- [x] Organized output structure
 - [ ] Support for additional document types
 - [ ] Batch processing of multiple PDFs
 - [ ] Web interface for document upload
 - [ ] Database integration for storing extracted data
 - [ ] Export to various formats (CSV, Excel, etc.)
 - [ ] Real-time processing capabilities
+- [ ] Progress tracking and resumable processing
 
 ## Acknowledgments
 

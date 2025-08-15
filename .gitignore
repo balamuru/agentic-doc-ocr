@@ -47,3 +47,7 @@ Thumbs.db
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# OCR Output directories
+output/
+

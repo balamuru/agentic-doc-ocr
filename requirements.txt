@@ -2,5 +2,7 @@
 agentic-doc
 pydantic>=2.0.0
 python-dotenv>=1.0.0
+PyPDF2>=3.0.0
+requests>=2.28.0
 
 # Add other dependencies as needed
