@@ -228,15 +228,27 @@ def process_page_parallel(page_info):
         except:
             pass
 
-def create_output_directory():
+def create_output_directory(pdf_filename=None):
     """
-    Create the output directory structure with timestamp.
+    Create the output directory structure with timestamp and optional filename.
     
+    Args:
+        pdf_filename (str, optional): Name of the PDF file being processed
+        
     Returns:
         str: Path to the created output directory
     """
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-    output_dir = Path(f"output/{timestamp}")
+    
+    if pdf_filename:
+        # Remove extension and sanitize filename for directory name
+        filename_without_ext = Path(pdf_filename).stem
+        # Replace any problematic characters with underscores
+        safe_filename = "".join(c if c.isalnum() or c in "._-" else "_" for c in filename_without_ext)
+        output_dir = Path(f"output/{timestamp}-{safe_filename}")
+    else:
+        output_dir = Path(f"output/{timestamp}")
+    
     output_dir.mkdir(parents=True, exist_ok=True)
     
     logger.info(f"Created output directory: {output_dir}")
@@ -296,8 +308,11 @@ def process_pdf_by_pages(pdf_path, max_workers=4):
     """
     logger.info(f"Starting PDF processing: {pdf_path}")
     
+    # Get filename for output directory
+    pdf_filename = os.path.basename(pdf_path)
+    
     # Create output directory
-    output_dir = create_output_directory()
+    output_dir = create_output_directory(pdf_filename)
     
     # Split PDF into pages
     page_files = split_pdf_by_pages(pdf_path)
